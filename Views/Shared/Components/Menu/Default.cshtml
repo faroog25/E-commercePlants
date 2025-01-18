@@ -1,0 +1,8 @@
+﻿@model IEnumerable<Page>
+
+@foreach(var item in Model)
+{
+    <li class="nav-item">
+        <a class="nav-link text-dark" href="@item.Slug">@item.Title</a>
+    </li>
+}

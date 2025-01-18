@@ -1,4 +1,5 @@
 using E_commercePlants.Data;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,6 +27,17 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.MapControllerRoute(
+    name: "areas",
+    pattern: "{areea:exists}/{controller=Dashboard}/{action=Index}/{id?}");
+
+app.MapControllerRoute(
+    name: "pages",
+    pattern: "{slug?}",
+    defaults:new { controller="Pages",action="Index"}
+    
+    );
 
 app.MapControllerRoute(
     name: "default",
