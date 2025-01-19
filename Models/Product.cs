@@ -21,6 +21,7 @@ namespace E_commercePlants.Models
 
         public string Image { get; set; } = "noimage.png";
         [NotMapped]
+        [FileExtensions]
         public IFormFile ImageUpload { get; set; }
 
     }
