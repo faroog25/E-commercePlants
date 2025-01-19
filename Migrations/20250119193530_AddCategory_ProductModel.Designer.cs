@@ -3,6 +3,7 @@ using E_commercePlants.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace E_commercePlants.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250119193530_AddCategory_ProductModel")]
+    partial class AddCategory_ProductModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,20 +41,6 @@ namespace E_commercePlants.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Shirts",
-                            Slug = "shirts"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Fruit",
-                            Slug = "fruit"
-                        });
                 });
 
             modelBuilder.Entity("E_commercePlants.Models.Page", b =>
@@ -148,88 +137,6 @@ namespace E_commercePlants.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CategoryId = 2,
-                            Description = "Juicy apples",
-                            Image = "apple1.jpg",
-                            Name = "Apples",
-                            Price = 1.50m,
-                            Slug = "apples"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CategoryId = 2,
-                            Description = "Juicy grapefruit",
-                            Image = "grapefruit1.jpg",
-                            Name = "Grapefruit",
-                            Price = 2m,
-                            Slug = "grapefruit"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CategoryId = 2,
-                            Description = "Fresh grapes",
-                            Image = "grapes1.jpg",
-                            Name = "Grapes",
-                            Price = 1.80m,
-                            Slug = "grapes"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            CategoryId = 2,
-                            Description = "Fresh oranges",
-                            Image = "orange1.jpg",
-                            Name = "Oranges",
-                            Price = 1.50m,
-                            Slug = "oranges"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            CategoryId = 1,
-                            Description = "Nice blue t-shirt",
-                            Image = "blue1.jpg",
-                            Name = "Blue shirt",
-                            Price = 7.99m,
-                            Slug = "blue-shirt"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            CategoryId = 1,
-                            Description = "Nice red t-shirt",
-                            Image = "red1.jpg",
-                            Name = "Red shirt",
-                            Price = 8.99m,
-                            Slug = "red-shirt"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            CategoryId = 1,
-                            Description = "Nice green t-shirt",
-                            Image = "green1.png",
-                            Name = "Green shirt",
-                            Price = 9.99m,
-                            Slug = "green-shirt"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            CategoryId = 1,
-                            Description = "Nice pink t-shirt",
-                            Image = "pink1.png",
-                            Name = "Pink shirt",
-                            Price = 10.99m,
-                            Slug = "pink-shirt"
-                        });
                 });
 
             modelBuilder.Entity("E_commercePlants.Models.Product", b =>
