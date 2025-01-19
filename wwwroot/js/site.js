@@ -1,4 +1,11 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿$(function () {
+    $('a.confirm').on("click", function () {
+        if (!confirm("Are you sure?")) return false;
+    });
 
-// Write your JavaScript code.
+    if ($("div.alert").length) {
+        setTimeout(() => {
+            $("div.alert").fadeOut();
+        }, 2000);
+    }
+});

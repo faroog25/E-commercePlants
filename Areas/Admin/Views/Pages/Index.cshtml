@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Page>
+
+@{
+    ViewData["Title"] = "Pages";
+}
+<h1>Pages</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Title
+            </th>
+            <th>
+                Slug
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Title
+                </td>
+                <td>
+                    @item.Slug
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    @if (item.Id != 1)
+                    {
+                        <a asp-action="Delete" class="confirm" asp-route-id="@item.Id">Delete</a>
+
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+
+
+</table>
