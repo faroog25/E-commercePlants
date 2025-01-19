@@ -11,5 +11,7 @@ namespace E_commercePlants.Models
         [Required, MinLength(10, ErrorMessage = "Minimum length is 10")]
         public string Body { get; set; }
 
+        public int Order { get; set; }
+
     }
 }

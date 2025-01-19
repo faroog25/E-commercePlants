@@ -8,9 +8,9 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+<table class="table sorting" id="pages">
     <thead>
-        <tr>
+        <tr class="home">
             <th>
                 Title
             </th>
@@ -22,7 +22,7 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
+            <tr id="id_@item.Id" class="@item.Slug">
                 <td>
                     @item.Title
                 </td>
@@ -43,3 +43,25 @@
 
 
 </table>
+
+@section Scripts {
+    <script src="~/lib/jqueryui/jquery-ui.min.js"></script>
+    <script>
+
+        $(function(){
+
+            $("table#pages tbody").sortable({
+                items: "tr:not(.home)",
+                placeholder: "ui-state-highlight",
+                update: function () {
+                    const ids = $("table#pages tbody").sortable("serialize");
+                    const url = "/admin/pages/ReorderPages";
+
+                    $.post(url, ids, function (data) { });
+                }
+            });
+        })
+
+    </script>
+}
+

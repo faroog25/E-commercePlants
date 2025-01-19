@@ -9,7 +9,7 @@ namespace E_commercePlants.Data.Components
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            return View(await _context.Pages.Where(x=> x.Slug!="home").ToListAsync());
+            return View(await _context.Pages.Where(x=> x.Slug!="home").OrderBy(x => x.Order).ToListAsync());
         }
     }
 }

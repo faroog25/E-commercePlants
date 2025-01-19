@@ -33,8 +33,10 @@ namespace E_commercePlants.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
+
                     b.Property<string>("Slug")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
@@ -50,6 +52,7 @@ namespace E_commercePlants.Migrations
                         {
                             Id = 1,
                             Body = "This is the home page",
+                            Order = 0,
                             Slug = "home",
                             Title = "Home"
                         },
@@ -57,6 +60,7 @@ namespace E_commercePlants.Migrations
                         {
                             Id = 2,
                             Body = "This is the about page",
+                            Order = 0,
                             Slug = "about",
                             Title = "About"
                         },
@@ -64,6 +68,7 @@ namespace E_commercePlants.Migrations
                         {
                             Id = 3,
                             Body = "This is the services page",
+                            Order = 0,
                             Slug = "services",
                             Title = "Services"
                         },
@@ -71,6 +76,7 @@ namespace E_commercePlants.Migrations
                         {
                             Id = 4,
                             Body = "This is the contact page",
+                            Order = 0,
                             Slug = "contact",
                             Title = "Contact"
                         });
