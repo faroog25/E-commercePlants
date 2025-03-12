@@ -81,7 +81,7 @@ namespace E_commercePlants.Areas.Admin.Controllers
             if (product is null) { return NotFound(); }
 
             ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name",product.CategoryId);
-            return View();
+            return View(product);
         }
 
         [HttpPost]
@@ -93,7 +93,7 @@ namespace E_commercePlants.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 product.Slug = product.Name.ToLower().Replace(" ", "-");
-                var slug = await _context.Products.FirstOrDefaultAsync(x => x.Slug == product.Slug);
+                var slug = await _context.Products.Where(p => p.Id != product.Id).FirstOrDefaultAsync(x => x.Slug == product.Slug);
 
                 if (slug != null)
                 {
@@ -102,31 +102,36 @@ namespace E_commercePlants.Areas.Admin.Controllers
                 }
 
 
-                string imageName;
+                
                 if (product.ImageUpload != null)
                 {
                     string uploadDir = Path.Combine(_webHostEnvironment.WebRootPath, "media/products");
-                    imageName = Guid.NewGuid().ToString() + "_" + product.ImageUpload.FileName;
+
+                    if (!string.Equals(product.Image, "noimage.png"))
+                    {
+                        string oldImagePath= Path.Combine(uploadDir, product.Image);
+                        if (System.IO.File.Exists(oldImagePath))
+                        {
+                            System.IO.File.Delete(oldImagePath);
+                        }
+                    }
+                    string  imageName = Guid.NewGuid().ToString() + "_" + product.ImageUpload.FileName;
                     string filePath = Path.Combine(uploadDir, imageName);
 
                     FileStream fs = new FileStream(filePath, FileMode.Create);
 
                     await product.ImageUpload.CopyToAsync(fs);
                     fs.Close();
+                    product.Image = imageName;
 
                 }
-                else
-                {
-                    imageName = "noimage.png";
-                }
+              
 
-                product.Image = imageName;
-
-                _context.Products.Add(product);
+                _context.Products.Update(product);
                 await _context.SaveChangesAsync();
 
-                TempData["Success"] = "The product has been added!";
-                return RedirectToAction("Index");
+                TempData["Success"] = "The product has been updated!";
+                return RedirectToAction("Edit",new {product.Id});
             }
             return View(product);
         }

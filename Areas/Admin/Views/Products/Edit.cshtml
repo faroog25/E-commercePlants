@@ -1,0 +1,80 @@
+﻿@model E_commercePlants.Models.Product
+
+@{
+    ViewData["Title"] = "Edit Products";
+}
+
+<h1>Edit Products</h1>
+
+<h4>Product</h4>
+
+<hr />
+<div class="row">
+    <div class="col-8">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group mb-3">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea asp-for="Description" class="form-control" ></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label class="control-label">Categories</label>
+                <select asp-for="CategoryId" class ="form-control" asp-items="ViewBag.Categories">
+                    <option value="0"> choose a category</option>
+                </select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+
+            </div>
+            <div class="form-group mb-3">
+                <label  class="control-label">Current image</label>
+                
+                <img src="/media/products/@Model.Image" alt="" width="200" />
+                
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="Image" class="control-label"></label>
+                <input asp-for="ImageUpload" class="form-control" 
+                onchange="img_pathUrl(this)"/>
+                <img src="" alt="" id="imgpreview" class="pt-2" />
+                <span asp-validation-for="ImageUpload" class="text-danger"></span>
+            </div>
+            <input asp-for="Image" type="hidden" />
+            <div class="form-group">
+                <button class="btn btn-primary" >Edit</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+            <partial name="_ValidationScriptsPartial" />
+    }
+    <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+
+    <script>
+        CKEDITOR.replace('Description');
+
+        function img_pathUrl(input)
+        {
+            $("img#imgpreview")[0].src = URL.createObjectURL(input.files[0]);
+        }
+    </script>
+}
+
+
