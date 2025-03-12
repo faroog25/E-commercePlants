@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using E_commercePlants.Data.Validation;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace E_commercePlants.Models
@@ -21,7 +22,7 @@ namespace E_commercePlants.Models
 
         public string Image { get; set; } = "noimage.png";
         [NotMapped]
-        [FileExtensions]
+        [FileExtension]
         public IFormFile ImageUpload { get; set; }
 
     }

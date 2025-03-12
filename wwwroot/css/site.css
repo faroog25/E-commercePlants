@@ -28,3 +28,8 @@ table.sorting tr:not(.home){
 .ui-state-highlight{
     border:1px dashed #ccc
 }
+
+img#imgpreview{
+    width:200px;
+    height:auto;
+}
