@@ -2,6 +2,25 @@
 
 A modern e-commerce platform built with ASP.NET Core 8.0 for selling plants and related products.
 
+## Description
+
+E-commerce Plants is a full-featured online store specializing in plants and gardening supplies. This project demonstrates modern web development practices using ASP.NET Core 8.0 and follows clean architecture principles.
+
+### Key Highlights
+
+- **Modern Architecture**: Built with ASP.NET Core 8.0, following MVC pattern and clean architecture principles
+- **Secure & Scalable**: Implements best practices for security and scalability
+- **User-Friendly**: Intuitive interface for both customers and administrators
+- **Rich Features**: Complete e-commerce solution with product management, shopping cart, and order processing
+- **Responsive Design**: Mobile-first approach ensuring great experience across all devices
+
+### Target Users
+
+- Plant enthusiasts looking to purchase plants and gardening supplies
+- Garden centers and plant nurseries wanting to expand their online presence
+- Administrators managing product inventory and orders
+- Customers seeking a seamless online shopping experience
+
 ## Features
 
 - 🛍️ Product catalog with categories
