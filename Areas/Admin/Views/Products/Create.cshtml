@@ -1,72 +1,102 @@
 ﻿@model E_commercePlants.Models.Product
 
 @{
-    ViewData["Title"] = "Create Products";
+    ViewData["Title"] = "Create Product";
 }
 
-<h1>Create Products</h1>
-
-<h4>Product</h4>
-<hr />
-<div class="row">
-    <div class="col-8">
-        <form asp-action="Create" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group mb-3">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group mb-3">
-                <label asp-for="Description" class="control-label"></label>
-                <textarea asp-for="Description" class="form-control" ></textarea>
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group mb-3">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
-                <span asp-validation-for="Price" class="text-danger"></span>
-            </div>
-            <div class="form-group mb-3">
-                <label class="control-label">Categories</label>
-                <select asp-for="CategoryId" class ="form-control" asp-items="ViewBag.Categories">
-                    <option value="0"> choose a category</option>
-                </select>
-                <span asp-validation-for="CategoryId" class="text-danger"></span>
-
-            </div>
-            <div class="form-group mb-3">
-                <label asp-for="Image" class="control-label"></label>
-                <input asp-for="ImageUpload" class="form-control" 
-                onchange="img_pathUrl(this)"/>
-                <img src="" alt="" id="imgpreview" class="pt-2" />
-                <span asp-validation-for="ImageUpload" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <button class="btn btn-primary" >Create</button>
-            </div>
-        </form>
+<div class="container-fluid p-3">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Create New Product</h1>
+        <a asp-action="Index" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Back to List
+        </a>
     </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+    <div class="card shadow">
+        <div class="card-body">
+            <form asp-action="Create" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group mb-4">
+                            <label asp-for="Name" class="form-label fw-bold"></label>
+                            <input asp-for="Name" class="form-control" placeholder="Enter product name"/>
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <label asp-for="Description" class="form-label fw-bold"></label>
+                            <textarea asp-for="Description" class="form-control" rows="5" placeholder="Enter product description"></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Price" class="form-label fw-bold"></label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">$</span>
+                                        <input asp-for="Price" class="form-control" placeholder="0.00"/>
+                                    </div>
+                                    <span asp-validation-for="Price" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label fw-bold">Category</label>
+                                    <select asp-for="CategoryId" class="form-select" asp-items="ViewBag.Categories">
+                                        <option value="0">Select a category</option>
+                                    </select>
+                                    <span asp-validation-for="CategoryId" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group mb-4">
+                            <label asp-for="Image" class="form-label fw-bold d-block">Product Image</label>
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <img src="/media/products/noimage.png" alt="Preview" id="imgpreview" class="img-fluid mb-3" style="max-height: 200px;"/>
+                                    <div class="input-group">
+                                        <input asp-for="ImageUpload" class="form-control" onchange="img_pathUrl(this)" accept="image/*"/>
+                                    </div>
+                                    <span asp-validation-for="ImageUpload" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group text-end mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <i class="fas fa-save"></i> Create Product
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 @section Scripts {
     @{
-            <partial name="_ValidationScriptsPartial" />
+        <partial name="_ValidationScriptsPartial" />
     }
     <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
 
     <script>
         CKEDITOR.replace('Description');
 
-        function img_pathUrl(input)
-        {
-            $("img#imgpreview")[0].src = URL.createObjectURL(input.files[0]);
+        function img_pathUrl(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#imgpreview').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
         }
     </script>
 }
-
-
