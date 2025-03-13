@@ -24,6 +24,7 @@ namespace E_commercePlants.Models
         [NotMapped]
         [FileExtension]
         public IFormFile ImageUpload { get; set; }
-
+        [NotMapped]
+        public IEnumerable<string> GalleryImages { get; set; }
     }
 }

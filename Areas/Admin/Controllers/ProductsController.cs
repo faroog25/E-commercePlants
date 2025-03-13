@@ -81,7 +81,17 @@ namespace E_commercePlants.Areas.Admin.Controllers
             if (product is null) { return NotFound(); }
 
             ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name",product.CategoryId);
+
+            string uploadDir = Path.Combine(_webHostEnvironment.WebRootPath, "media/gallery/"
+                + id.ToString());
+
+            if (Directory.Exists(uploadDir))
+            {
+                product.GalleryImages = Directory.EnumerateFiles(uploadDir).Select(
+                    x=>Path.GetFileName(x));
+            }
             return View(product);
+
         }
 
         [HttpPost]
@@ -143,8 +153,8 @@ namespace E_commercePlants.Areas.Admin.Controllers
 
             if (files.Any())
             {
-                string rootFolder= Path.Combine(_webHostEnvironment.WebRootPath, "media/gallery");
-                string uploadDir = Path.Combine(rootFolder,id.ToString());
+                string uploadDir = Path.Combine(_webHostEnvironment.WebRootPath, "media/gallery/"+id.ToString());
+                
 
                 if (!Directory.Exists(uploadDir))
                 {
