@@ -61,11 +61,23 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+<div class="row mt-3">
+    <div class="col">
+        <h3>Upload Gallery Images</h3>
+        <form asp-action="UploadImages" class="dropzone" id="upload" 
+        enctype="multipart/form-data" ></form>
+        <button id="btnUpload" class="btn btn-success mt-3">Upload Images</button>
+    </div>
+</div>
+
 @section Scripts {
     @{
             <partial name="_ValidationScriptsPartial" />
     }
     <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+
+    <script src="https://unpkg.com/dropzone@6.0.0-beta.1/dist/dropzone-min.js"></script>
+    <link href="https://unpkg.com/dropzone@6.0.0-beta.1/dist/dropzone.css" rel="stylesheet" type="text/css" />
 
     <script>
         CKEDITOR.replace('Description');
@@ -74,6 +86,50 @@
         {
             $("img#imgpreview")[0].src = URL.createObjectURL(input.files[0]);
         }
+
+        Dropzone.autoDiscover = false;
+        $(function () {
+            var dz = null;
+            $("#upload").dropzone({
+                autoProcessQueue: false,
+                paramName: "File Upload",
+                maxFilesize: 5, //mb
+                maxThumbnailFilesize: 1, //mb
+                maxFiles: 5,
+                parallelUploads: 5,
+                acceptedFiles: ".jpeg,.png,.jpg",
+                uploadMultiple: true,
+                addRemoveLinks: true,
+
+                init: function () {
+                    dz = this;
+                    $("#btnUpload").click(function () {
+                        dz.processQueue();
+                        $(this).attr("disabled", "disabled");
+                    });
+                    dz.on("sending",function (file,xhr,formData) {
+                        formData.append("id",@Model.Id);
+                    });
+                },
+                success: function (file) {
+                    var preview = $(file.previewElement);
+                    preview.addClass("dz-success text-success");
+                    setTimeout(function () {
+                        dz.removeFile(file);
+
+                    }, 2000);
+
+                },
+                queuecomplete: function () {
+                    setTimeout(()=> {
+                        location.reload(),2000
+                    })
+                },
+                dictDefaultMessage: "You can drag and drop your images here.",
+                dictRemoveFile: "File Remove"
+            });
+
+        });
     </script>
 }
 
