@@ -145,37 +145,36 @@ namespace E_commercePlants.Areas.Admin.Controllers
             }
             return View(product);
         }
-        [HttpDelete]
+        [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
             var product = await _context.Products.FindAsync(id);
             if (product is null) { 
                 TempData["error"]="The product does not exist!";
-                 }
-            else{
+            }
+            else {
                 if (!string.Equals(product.Image, "noimage.png"))
-                    {
-                       string productImage = Path.Combine(_webHostEnvironment.WebRootPath, "media/products/" +product.Image);
+                {
+                    string productImage = Path.Combine(_webHostEnvironment.WebRootPath, "media/products/" + product.Image);
 
-                        if (System.IO.File.Exists(productImage))
-                        {
-                            System.IO.File.Delete(productImage);
-                        }
-                    }
-                    string gallery = Path.Combine(
-                        _webHostEnvironment.WebRootPath, "media/gallery/"
-                         +product.Id.ToString());
-
-                    if (Directory.Exists(gallery))
+                    if (System.IO.File.Exists(productImage))
                     {
-                        Directory.Delete(gallery);
+                        System.IO.File.Delete(productImage);
                     }
+                }
+                string gallery = Path.Combine(
+                    _webHostEnvironment.WebRootPath, "media/gallery/"
+                    + product.Id.ToString());
+
+                if (Directory.Exists(gallery))
+                {
+                    Directory.Delete(gallery);
+                }
                 _context.Products.Remove(product);
                 await _context.SaveChangesAsync();
-            
+                TempData["Success"] = "The product has been deleted!";
             }
-            TempData["Success"]="The product has been deleted!";
-           return RedirectToAction("Index");
+            return RedirectToAction("Index");
         }
         [HttpPost]
         public async Task<IActionResult> UploadImages(int id)
