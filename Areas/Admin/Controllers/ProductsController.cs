@@ -176,6 +176,17 @@ namespace E_commercePlants.Areas.Admin.Controllers
             }
             return View();
         }
+        [HttpPost]
+        public void DeleteImage(int id , string imageName)
+        {
+            string fallPath=Path.Combine(_webHostEnvironment.WebRootPath,
+             "media/gallery/"+id.ToString()+"/"+imageName);
+
+             if(System.IO.File.Exists(fallPath))
+             {
+                System.IO.File.Delete(fallPath);
+             }
+        }
 
     }
 }

@@ -74,6 +74,7 @@
             {
                 <div class="col-md-3">
                     <img src="/media/gallery/@Model.Id/@image" alt="" class="img-fluid" />
+                    <a data-name="@image" class="deleteImage confirm mt-2 btn btn-sm btn-danger">Delete</a>
                 </div>
             }
         </div>
@@ -145,6 +146,16 @@
                 },
                 dictDefaultMessage: "You can drag and drop your images here.",
                 dictRemoveFile: "File Remove"
+            });
+
+            $("a.deleteImage").on("click",function (e) {
+                e.preventDefault();
+                const $this=$(this);
+                var url="/admin/products/DeleteImage"
+                const imageName = $this.data("name");
+                $.post(url,{id:@Model.Id,imageName:imageName},function(data){
+                   $this.parent().fadeOut("fast");
+                });
             });
 
         });
