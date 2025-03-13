@@ -118,7 +118,7 @@ namespace E_commercePlants.Areas.Admin.Controllers
                     string  imageName = Guid.NewGuid().ToString() + "_" + product.ImageUpload.FileName;
                     string filePath = Path.Combine(uploadDir, imageName);
 
-                    FileStream fs = new FileStream(filePath, FileMode.Create);
+                    FileStream fs = new(filePath, FileMode.Create);
 
                     await product.ImageUpload.CopyToAsync(fs);
                     fs.Close();
@@ -134,6 +134,37 @@ namespace E_commercePlants.Areas.Admin.Controllers
                 return RedirectToAction("Edit",new {product.Id});
             }
             return View(product);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UploadImages(int id)
+        {
+            var files = HttpContext.Request.Form.Files;
+
+            if (files.Any())
+            {
+                string rootFolder= Path.Combine(_webHostEnvironment.WebRootPath, "media/gallery");
+                string uploadDir = Path.Combine(rootFolder,id.ToString());
+
+                if (!Directory.Exists(uploadDir))
+                {
+                    Directory.CreateDirectory(uploadDir);
+                }
+
+                foreach (var file in files)
+                {
+                    string imageName = Guid.NewGuid().ToString() + "_" + file.FileName;
+                    string filePath = Path.Combine(uploadDir, imageName);
+
+                    FileStream fs = new(filePath, FileMode.Create);
+
+                    await file.CopyToAsync(fs);
+                    fs.Close();
+                }
+
+                return Ok();
+            }
+            return View();
         }
 
     }
