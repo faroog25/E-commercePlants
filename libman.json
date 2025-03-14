@@ -5,6 +5,11 @@
     {
       "library": "jqueryui@1.14.1",
       "destination": "wwwroot/lib/jqueryui/"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "fancybox@3.5.7",
+      "destination": "wwwroot/lib/fancybox/"
     }
   ]
 }
