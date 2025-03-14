@@ -13,10 +13,13 @@ namespace E_commercePlants.Areas.Admin.Controllers
         private readonly AppDbContext _context = context;
         private readonly IWebHostEnvironment _webHostEnvironment = webHostEnvironment;
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int categoryId)
         {
+            ViewBag.Categories=new SelectList(_context.Categories,"Id","Name",categoryId.ToString()); 
 
-            List<Product> products = await _context.Products.Include(x=>x.Category).OrderByDescending(x=>x.Id).ToListAsync();
+            List<Product> products = await _context.Products
+                .Where(x=>categoryId ==0 || x.CategoryId==categoryId)
+                .Include(x=>x.Category).OrderByDescending(x=>x.Id).ToListAsync();
 
 
             return View(products);
