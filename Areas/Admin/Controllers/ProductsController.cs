@@ -18,7 +18,7 @@ namespace E_commercePlants.Areas.Admin.Controllers
             ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name", categoryId.ToString());
 
 
-
+            ViewBag.CategoryId = categoryId;
             int pageSize = 3;
             ViewBag.PageNumber = page;
             ViewBag.PageRange = pageSize;
