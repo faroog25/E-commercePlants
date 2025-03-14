@@ -14,6 +14,9 @@
 
     <div class="card shadow mb-4">
         <div class="card-body">
+            <select id="categoryFilter" class="form-select" asp-items="ViewBag.Categories">
+                <option value="0">All</option>
+            </select>
             <div class="table-responsive">
                 <table class="table table-bordered table-hover" id="productsTable">
                     <thead class="thead-dark">
@@ -27,21 +30,24 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model) {
+                        @foreach (var item in Model)
+                        {
                             <tr>
                                 <td class="align-middle">@item.Name</td>
                                 <td class="align-middle">@item.Slug</td>
                                 <td class="align-middle">@item.Price.ToString("C2")</td>
                                 <td class="align-middle">@item.Category.Name</td>
                                 <td class="align-middle">
-                                    <img src="/media/products/@item.Image" class="img-thumbnail" style="max-width: 100px;" alt="@item.Name" />
+                                    <img src="/media/products/@item.Image" class="img-thumbnail" style="max-width: 100px;"
+                                        alt="@item.Name" />
                                 </td>
                                 <td class="align-middle">
                                     <div class="btn-group" role="group">
                                         <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">
                                             <i class="fas fa-edit"></i> Edit
                                         </a>
-                                        <form asp-action="Delete" asp-route-id="@item.Id" method="post" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this product?');">
+                                        <form asp-action="Delete" asp-route-id="@item.Id" method="post" class="d-inline"
+                                            onsubmit="return confirm('Are you sure you want to delete this product?');">
                                             <button type="submit" class="btn btn-danger btn-sm">
                                                 <i class="fas fa-trash"></i> Delete
                                             </button>
@@ -59,7 +65,7 @@
 
 @section Scripts {
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#productsTable').DataTable({
                 "ordering": true,
                 "paging": true,
@@ -67,5 +73,10 @@
                 "responsive": true
             });
         });
+
+        $('#categoryFilter').change(function () {
+            var categoryId = $(this).val();
+            window.location.href = '/Admin/Products?categoryId=' + categoryId;
+        }); 
     </script>
 }
