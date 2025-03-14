@@ -8,26 +8,47 @@ using Microsoft.IdentityModel.Tokens;
 namespace E_commercePlants.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class ProductsController(AppDbContext context,IWebHostEnvironment webHostEnvironment) : Controller
+    public class ProductsController(AppDbContext context, IWebHostEnvironment webHostEnvironment) : Controller
     {
         private readonly AppDbContext _context = context;
         private readonly IWebHostEnvironment _webHostEnvironment = webHostEnvironment;
 
-        public async Task<IActionResult> Index(int categoryId)
+        public async Task<IActionResult> Index(int categoryId, int page = 1)
         {
-            ViewBag.Categories=new SelectList(_context.Categories,"Id","Name",categoryId.ToString()); 
-
-            List<Product> products = await _context.Products
-                .Where(x=>categoryId ==0 || x.CategoryId==categoryId)
-                .Include(x=>x.Category).OrderByDescending(x=>x.Id).ToListAsync();
+            ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name", categoryId.ToString());
 
 
-            return View(products);
+            ViewBag.CategoryId = categoryId;
+            int pageSize = 3;
+            ViewBag.PageNumber = page;
+            ViewBag.PageRange = pageSize;
+            Category category = await _context.Categories.Where(
+                x => x.Id == categoryId
+            ).FirstOrDefaultAsync();
+
+            if (category == null)
+            {
+                ViewBag.TotalPages = (int)Math.Ceiling((decimal)_context.Products.Count() / pageSize);
+
+                List<Product> products = await _context.Products
+                    .Include(x => x.Category).OrderByDescending(x => x.Id)
+                    .Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+                return View(products);
+
+            }
+            var productsByCategory = _context.Products
+            .Where(x => x.CategoryId == categoryId);
+
+            ViewBag.TotalPages = (int)Math.Ceiling((decimal)productsByCategory.Count() / pageSize);
+
+            return View(await productsByCategory.Include(x => x.Category).OrderByDescending(x => x.Id)
+                    .Skip((page - 1) * pageSize).Take(pageSize).ToListAsync());
+
         }
 
         public IActionResult Create()
-        { 
-            ViewBag.Categories=new SelectList(_context.Categories,"Id","Name"); 
+        {
+            ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name");
             return View();
         }
 
@@ -35,7 +56,7 @@ namespace E_commercePlants.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Product product)
         {
-            ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name",product.CategoryId);
+            ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
 
             if (ModelState.IsValid)
             {
@@ -50,13 +71,13 @@ namespace E_commercePlants.Areas.Admin.Controllers
 
 
                 string imageName;
-                if (product.ImageUpload!=null)
+                if (product.ImageUpload != null)
                 {
                     string uploadDir = Path.Combine(_webHostEnvironment.WebRootPath, "media/products");
-                    imageName=Guid.NewGuid().ToString()+"_"+product.ImageUpload.FileName;
-                    string filePath=Path.Combine(uploadDir, imageName);
+                    imageName = Guid.NewGuid().ToString() + "_" + product.ImageUpload.FileName;
+                    string filePath = Path.Combine(uploadDir, imageName);
 
-                    FileStream fs=new FileStream(filePath, FileMode.Create);
+                    FileStream fs = new FileStream(filePath, FileMode.Create);
 
                     await product.ImageUpload.CopyToAsync(fs);
                     fs.Close();
@@ -68,7 +89,7 @@ namespace E_commercePlants.Areas.Admin.Controllers
                 }
 
                 product.Image = imageName;
-                        
+
                 _context.Products.Add(product);
                 await _context.SaveChangesAsync();
 
@@ -83,7 +104,7 @@ namespace E_commercePlants.Areas.Admin.Controllers
             Product product = await _context.Products.FindAsync(id);
             if (product is null) { return NotFound(); }
 
-            ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name",product.CategoryId);
+            ViewBag.Categories = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
 
             string uploadDir = Path.Combine(_webHostEnvironment.WebRootPath, "media/gallery/"
                 + id.ToString());
@@ -91,7 +112,7 @@ namespace E_commercePlants.Areas.Admin.Controllers
             if (Directory.Exists(uploadDir))
             {
                 product.GalleryImages = Directory.EnumerateFiles(uploadDir).Select(
-                    x=>Path.GetFileName(x));
+                    x => Path.GetFileName(x));
             }
             return View(product);
 
@@ -115,20 +136,20 @@ namespace E_commercePlants.Areas.Admin.Controllers
                 }
 
 
-                
+
                 if (product.ImageUpload != null)
                 {
                     string uploadDir = Path.Combine(_webHostEnvironment.WebRootPath, "media/products");
 
                     if (!string.Equals(product.Image, "noimage.png"))
                     {
-                        string oldImagePath= Path.Combine(uploadDir, product.Image);
+                        string oldImagePath = Path.Combine(uploadDir, product.Image);
                         if (System.IO.File.Exists(oldImagePath))
                         {
                             System.IO.File.Delete(oldImagePath);
                         }
                     }
-                    string  imageName = Guid.NewGuid().ToString() + "_" + product.ImageUpload.FileName;
+                    string imageName = Guid.NewGuid().ToString() + "_" + product.ImageUpload.FileName;
                     string filePath = Path.Combine(uploadDir, imageName);
 
                     FileStream fs = new(filePath, FileMode.Create);
@@ -138,13 +159,13 @@ namespace E_commercePlants.Areas.Admin.Controllers
                     product.Image = imageName;
 
                 }
-              
+
 
                 _context.Products.Update(product);
                 await _context.SaveChangesAsync();
 
                 TempData["Success"] = "The product has been updated!";
-                return RedirectToAction("Edit",new {product.Id});
+                return RedirectToAction("Edit", new { product.Id });
             }
             return View(product);
         }
@@ -152,10 +173,12 @@ namespace E_commercePlants.Areas.Admin.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var product = await _context.Products.FindAsync(id);
-            if (product is null) { 
-                TempData["error"]="The product does not exist!";
+            if (product is null)
+            {
+                TempData["error"] = "The product does not exist!";
             }
-            else {
+            else
+            {
                 if (!string.Equals(product.Image, "noimage.png"))
                 {
                     string productImage = Path.Combine(_webHostEnvironment.WebRootPath, "media/products/" + product.Image);
@@ -186,8 +209,8 @@ namespace E_commercePlants.Areas.Admin.Controllers
 
             if (files.Any())
             {
-                string uploadDir = Path.Combine(_webHostEnvironment.WebRootPath, "media/gallery/"+id.ToString());
-                
+                string uploadDir = Path.Combine(_webHostEnvironment.WebRootPath, "media/gallery/" + id.ToString());
+
 
                 if (!Directory.Exists(uploadDir))
                 {
@@ -210,15 +233,15 @@ namespace E_commercePlants.Areas.Admin.Controllers
             return View();
         }
         [HttpPost]
-        public void DeleteImage(int id , string imageName)
+        public void DeleteImage(int id, string imageName)
         {
-            string fallPath=Path.Combine(_webHostEnvironment.WebRootPath,
-             "media/gallery/"+id.ToString()+"/"+imageName);
+            string fallPath = Path.Combine(_webHostEnvironment.WebRootPath,
+             "media/gallery/" + id.ToString() + "/" + imageName);
 
-             if(System.IO.File.Exists(fallPath))
-             {
+            if (System.IO.File.Exists(fallPath))
+            {
                 System.IO.File.Delete(fallPath);
-             }
+            }
         }
 
     }
