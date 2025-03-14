@@ -8,9 +8,11 @@ using Microsoft.IdentityModel.Tokens;
 namespace E_commercePlants.Controllers
 {
 
-    public class ProductsController(AppDbContext context) : Controller
+    public class ProductsController(AppDbContext context, IWebHostEnvironment webHostEnvironment) : Controller
     {
         private readonly AppDbContext _context = context;
+        private readonly IWebHostEnvironment _webHostEnvironment = webHostEnvironment;
+
         public async Task<IActionResult> Index(string slug="", int page = 1)
         {
 
@@ -44,7 +46,28 @@ namespace E_commercePlants.Controllers
                     .Skip((page - 1) * pageSize).Take(pageSize).ToListAsync());
 
         }
+        [HttpGet]
+        public async Task<IActionResult> Product(string slug="")
+        {
+                  Product product = await _context.Products.Where(
+                x => x.Slug == slug
+            ).FirstOrDefaultAsync();
+                if (product == null)
+                {
+                    return RedirectToAction("Index");
+                }
 
+                string galleryDir = Path.Combine(_webHostEnvironment.WebRootPath, "media/gallery/"
+                + product.Id.ToString());
+
+            if (Directory.Exists(galleryDir))
+            {
+                product.GalleryImages = Directory.EnumerateFiles(galleryDir).Select(
+                    x => Path.GetFileName(x));
+            }
+
+                return View(product);
+        }
 
 
     }
