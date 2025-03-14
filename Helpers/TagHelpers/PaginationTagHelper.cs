@@ -61,7 +61,7 @@ namespace E_commercePlants.Helpers.TagHelpers
                         continue;
                     }
                     var active = currentPage == PageNumber ? "active" : "";
-                    content.Append($"<li class='page-item {active}'><a class='page-link'href='{PageTarget}?p={currentPage}'>{currentPage}</a></li>");
+                    content.Append($"<li class='page-item {active}'><a class='page-link'href='{PageTarget}?page={currentPage}'>{currentPage}</a></li>");
                 }
             }
             else if (PageNumber > PageRange && PageNumber < PageCount - PageRange)
@@ -73,7 +73,7 @@ namespace E_commercePlants.Helpers.TagHelpers
                         continue;
                     }
                     var active = currentPage == PageNumber ? "active" : "";
-                    content.Append($"<li class='page-item {active}'><a class='page-link'href='{PageTarget}?p={currentPage}'>{currentPage}</a></li>");
+                    content.Append($"<li class='page-item {active}'><a class='page-link'href='{PageTarget}?page={currentPage}'>{currentPage}</a></li>");
                 }
             }
             else
@@ -85,13 +85,13 @@ namespace E_commercePlants.Helpers.TagHelpers
                         continue;
                     }
                     var active = currentPage == PageNumber ? "active" : "";
-                    content.Append($"<li class='page-item {active}'><a class='page-link'href='{PageTarget}?p={currentPage}'>{currentPage}</a></li>");
+                    content.Append($"<li class='page-item {active}'><a class='page-link'href='{PageTarget}?page={currentPage}'>{currentPage}</a></li>");
                 }
             }
 
             if (PageNumber != PageCount)
             {
-                content.Append($"<li class='page-item'><a class='page-link' href='{PageTarget}?p={PageCount}'>{PageLast}</a></li>");
+                content.Append($"<li class='page-item'><a class='page-link' href='{PageTarget}?page={PageCount}'>{PageLast}</a></li>");
             }
 
             content.Append(" </ul");
