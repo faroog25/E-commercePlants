@@ -15,7 +15,9 @@ namespace E_commercePlants.Helpers.TagHelpers
 
         public int PageNumber { get; set; }
         public int PageSize { get; set; }
+
         public int PageCount { get; set; }
+        public int CategoryId { get; set; }
         public int PageRange { get; set; }
         public string PageFirst { get; set; }
         public string PageLast { get; set; }
@@ -48,7 +50,7 @@ namespace E_commercePlants.Helpers.TagHelpers
 
             if (PageNumber != 1)
             {
-                content.Append($"<li class='page-item'><a class='page-link' href='{PageTarget}'>{PageFirst}</a></li>");
+                content.Append($"<li class='page-item'><a class='page-link' href='{PageTarget}?categoryId={CategoryId}'>{PageFirst}</a></li>");
             }
 
 
@@ -61,7 +63,7 @@ namespace E_commercePlants.Helpers.TagHelpers
                         continue;
                     }
                     var active = currentPage == PageNumber ? "active" : "";
-                    content.Append($"<li class='page-item {active}'><a class='page-link'href='{PageTarget}?page={currentPage}'>{currentPage}</a></li>");
+                    content.Append($"<li class='page-item {active}'><a class='page-link'href='{PageTarget}?categoryId={CategoryId}&page={currentPage}'>{currentPage}</a></li>");
                 }
             }
             else if (PageNumber > PageRange && PageNumber < PageCount - PageRange)
@@ -73,7 +75,7 @@ namespace E_commercePlants.Helpers.TagHelpers
                         continue;
                     }
                     var active = currentPage == PageNumber ? "active" : "";
-                    content.Append($"<li class='page-item {active}'><a class='page-link'href='{PageTarget}?page={currentPage}'>{currentPage}</a></li>");
+                    content.Append($"<li class='page-item {active}'><a class='page-link'href='{PageTarget}?categoryId={CategoryId}&page={currentPage}'>{currentPage}</a></li>");
                 }
             }
             else
@@ -85,13 +87,13 @@ namespace E_commercePlants.Helpers.TagHelpers
                         continue;
                     }
                     var active = currentPage == PageNumber ? "active" : "";
-                    content.Append($"<li class='page-item {active}'><a class='page-link'href='{PageTarget}?page={currentPage}'>{currentPage}</a></li>");
+                    content.Append($"<li class='page-item {active}'><a class='page-link'href='{PageTarget}?categoryId={CategoryId}&page={currentPage}'>{currentPage}</a></li>");
                 }
             }
 
             if (PageNumber != PageCount)
             {
-                content.Append($"<li class='page-item'><a class='page-link' href='{PageTarget}?page={PageCount}'>{PageLast}</a></li>");
+                content.Append($"<li class='page-item'><a class='page-link' href='{PageTarget}?categoryId={CategoryId}&page={PageCount}'>{PageLast}</a></li>");
             }
 
             content.Append(" </ul");
