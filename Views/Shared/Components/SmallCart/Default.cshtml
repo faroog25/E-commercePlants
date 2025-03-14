@@ -1,0 +1,13 @@
+﻿@model SmallCartViewModel
+
+@if (Model !=null)
+{
+    <p>Items in Cart: <span class="badge badge-primary">@Model.NumberOfItems</span></p>
+    <p>Total: <b>@Model.TotalAmount.ToString("C2")</b></p>
+    <a class="btn btn-primary mb-2">View Cart</a>
+    <a class="btn btn-danger ">Clear Cart</a>
+}
+else
+{
+    <p class="lead">Your Cart is empty.</p>
+}
