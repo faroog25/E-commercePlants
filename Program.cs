@@ -33,11 +33,17 @@ app.MapControllerRoute(
     pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
+    name: "products",
+    pattern: "products/{slug}",
+    defaults: new { controller = "Products", action = "Index" }
+);
+app.MapControllerRoute(
     name: "pages",
     pattern: "{slug?}",
     defaults:new { controller="Pages",action="Index"}
     
     );
+
 
 app.MapControllerRoute(
     name: "default",
