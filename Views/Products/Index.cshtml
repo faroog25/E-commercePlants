@@ -12,12 +12,13 @@
                 <img src="~/media/products/@item.Image" class="card-img-top" alt="@item.Name">
                 <div class="card-body">
                     <h5 class="card-title">@item.Name</h5>
-                    <p class="card-text">@item.Description</p>
+                    <p class="card-text">@Html.Raw(@item.Description)</p>
                     <p class="card-text">@item.Price.ToString("C2")</p>
                     <a class="btn btn-primary" asp-controller="Cart" asp-action="Add" asp-route-id="@item.Id">Add to Cart</a>
                 </div>
             </div>
         </div>
+    }
 
 
         @if (ViewBag.TotalPages > 1)
