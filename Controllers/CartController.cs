@@ -50,23 +50,29 @@ namespace E_commercePlants.Controllers
             return Redirect(Request.Headers.Referer.ToString());
         }
 
-        public async Task<IActionResult> Decrease(int id)
+        public IActionResult Decrease(int id)
         {
-            List<CartItem> cart=HttpContext.Session
+            List<CartItem> cart = HttpContext.Session
                 .GetJson<List<CartItem>>("Cart") ?? [];
-            CartItem cartItem=cart.Where(c=>c.ProductId==id).FirstOrDefault();
-            if(cartItem!=null)
+            CartItem cartItem = cart.Where(c => c.ProductId == id).FirstOrDefault();
+            
+            if (cartItem != null)
             {
-                if(cartItem.Quantity>1)
+                if (cartItem.Quantity > 1)
                 {
                     cartItem.Quantity--;
                 }
+                else // quantity is 1
+                {
+                    cart.RemoveAll(c => c.ProductId == id); // remove item completely
+                }
             }
-            HttpContext.Session.SetJson("Cart",cart);
-            TempData["success"]="The product has been removed!";
+            
+            HttpContext.Session.SetJson("Cart", cart);
+            TempData["success"] = "The product quantity has been decreased!";
             return RedirectToAction(nameof(Index));
         }
-        public async Task<IActionResult> Remove(int id)
+        public  IActionResult Remove(int id)
         {
             List<CartItem> cart=HttpContext.Session
                 .GetJson<List<CartItem>>("Cart") ?? [];
@@ -76,7 +82,7 @@ namespace E_commercePlants.Controllers
             return RedirectToAction(nameof(Index)); 
 
         }
-        public async Task<IActionResult> Clear()
+        public  IActionResult Clear()
         {
             HttpContext.Session.Remove("Cart");
             TempData["success"]="The cart has been cleared!";
