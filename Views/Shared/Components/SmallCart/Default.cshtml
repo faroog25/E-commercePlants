@@ -14,7 +14,7 @@
                     <span class="fw-bold">@Model.TotalAmount.ToString("C2")</span>
                 </div>
                 <div class="d-grid gap-2">
-                    <a href="/Cart" class="btn btn-primary">
+                    <a asp-controller="Cart" asp-action="Index" class="btn btn-primary">
                         <i class="bi bi-cart"></i> View Cart
                     </a>
                     <a href="/Cart/Clear" class="btn btn-outline-danger">
