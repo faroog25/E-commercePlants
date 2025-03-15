@@ -55,11 +55,13 @@ app.MapControllerRoute(
     pattern: "products/{slug?}",
     defaults: new { controller = "Products", action = "Index" }
 );
+
 app.MapControllerRoute(
     name: "cart",
-    pattern: "{controller=Cart}/{action=Index}/{id?}"
-
+    pattern: "cart/{action}/{id?}",
+    defaults: new { controller = "Cart", action = "Index" }
 );
+
 app.MapControllerRoute(
     name: "pages",
     pattern: "{slug?}",
