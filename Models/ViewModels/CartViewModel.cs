@@ -1,8 +1,8 @@
 namespace E_commercePlants.Models.ViewModels;
 
-public class SmallCartViewModel
+public class CartViewModel
 {
-    public int NumberOfItems { get; set; }
-    public decimal TotalAmount { get; set; }
+    public List<CartItem> CartItems { get; set; }
+    public decimal GrandTotal { get; set; }
     
 }
