@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace CMSECommerce.Infrastructure
+namespace E_commercePlants.Helpers
 {
     // Used to define Extension methods for ISession
     public static class SessionExtensions
