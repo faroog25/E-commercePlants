@@ -1,13 +1,34 @@
 ﻿@model SmallCartViewModel
 
-@if (Model !=null)
-{
-    <p>Items in Cart: <span class="badge badge-primary">@Model.NumberOfItems</span></p>
-    <p>Total: <b>@Model.TotalAmount.ToString("C2")</b></p>
-    <a class="btn btn-primary mb-2">View Cart</a>
-    <a class="btn btn-danger ">Clear Cart</a>
-}
-else
-{
-    <p class="lead">Your Cart is empty.</p>
-}
+<div class="card shadow-sm">
+    <div class="card-body">
+        @if (Model != null)
+        {
+            <div class="d-flex flex-column">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span>Items in Cart:</span>
+                    <span class="badge bg-primary rounded-pill">@Model.NumberOfItems</span>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span>Total:</span>
+                    <span class="fw-bold">@Model.TotalAmount.ToString("C2")</span>
+                </div>
+                <div class="d-grid gap-2">
+                    <a href="/Cart" class="btn btn-primary">
+                        <i class="bi bi-cart"></i> View Cart
+                    </a>
+                    <a href="/Cart/Clear" class="btn btn-outline-danger">
+                        <i class="bi bi-trash"></i> Clear Cart
+                    </a>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="text-center">
+                <i class="bi bi-cart-x fs-1 text-muted"></i>
+                <p class="lead mb-0">Your Cart is empty</p>
+            </div>
+        }
+    </div>
+</div>
