@@ -49,5 +49,39 @@ namespace E_commercePlants.Controllers
 
             return Redirect(Request.Headers.Referer.ToString());
         }
+
+        public async Task<IActionResult> Decrease(int id)
+        {
+            List<CartItem> cart=HttpContext.Session
+                .GetJson<List<CartItem>>("Cart") ?? [];
+            CartItem cartItem=cart.Where(c=>c.ProductId==id).FirstOrDefault();
+            if(cartItem!=null)
+            {
+                if(cartItem.Quantity>1)
+                {
+                    cartItem.Quantity--;
+                }
+            }
+            HttpContext.Session.SetJson("Cart",cart);
+            TempData["success"]="The product has been removed!";
+            return RedirectToAction(nameof(Index));
+        }
+        public async Task<IActionResult> Remove(int id)
+        {
+            List<CartItem> cart=HttpContext.Session
+                .GetJson<List<CartItem>>("Cart") ?? [];
+            cart.RemoveAll(c=>c.ProductId==id);
+            HttpContext.Session.SetJson("Cart",cart);
+            TempData["success"]="The product has been removed!";
+            return RedirectToAction(nameof(Index)); 
+
+        }
+        public async Task<IActionResult> Clear()
+        {
+            HttpContext.Session.Remove("Cart");
+            TempData["success"]="The cart has been cleared!";
+            return RedirectToAction(nameof(Index));
+        }
+        
     }
 }
