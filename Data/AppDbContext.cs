@@ -1,9 +1,11 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.General;
+using IdentityDbContext = Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityDbContext;
 
 namespace E_commercePlants.Data
 {
-    public class AppDbContext(DbContextOptions<AppDbContext> options):DbContext(options)
+    public class AppDbContext(DbContextOptions<AppDbContext> options):IdentityDbContext(options)
     {
         public DbSet<Page> Pages { get; set; }
         public DbSet<Category> Categories { get; set; }

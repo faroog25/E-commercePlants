@@ -1,4 +1,5 @@
 using E_commercePlants.Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,6 +21,21 @@ builder.Services.AddSession(option =>
 }
 
 );
+
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+
+builder.Services.Configure<IdentityOptions>(option =>
+{
+    option.Password.RequiredLength = 5;
+    option.Password.RequireNonAlphanumeric = false;
+    option.Password.RequireDigit = false;
+    option.Password.RequireLowercase = false;
+    option.Password.RequireUppercase = false;
+
+    option.User.RequireUniqueEmail = true;
+
+});
 
 var app = builder.Build();
 
