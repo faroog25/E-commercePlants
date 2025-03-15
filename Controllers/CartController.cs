@@ -1,5 +1,6 @@
 ﻿using E_commercePlants.Data;
 using E_commercePlants.Helpers;
+using E_commercePlants.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -10,6 +11,19 @@ namespace E_commercePlants.Controllers
     {
         private readonly AppDbContext _context = context;
 
+        public IActionResult Index()
+        {
+            List<CartItem> cart = HttpContext.Session
+                .GetJson<List<CartItem>>("Cart") ?? [];
+            CartViewModel cartViewModel = new()
+            {
+                CartItems = cart,
+
+                GrandTotal = cart.Sum(x => x.Quantity * x.Price)
+            };
+
+            return View(cartViewModel);
+        }
         public async Task<IActionResult> Add(int id)
         {
            
