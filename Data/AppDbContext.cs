@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.General;
 using IdentityDbContext = Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityDbContext;
+using E_commercePlants.Models;
 
 namespace E_commercePlants.Data
 {
@@ -112,5 +113,6 @@ namespace E_commercePlants.Data
 
                 );
         }
+        public DbSet<E_commercePlants.Models.User> User { get; set; }
     }
 }

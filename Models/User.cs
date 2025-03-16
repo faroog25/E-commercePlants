@@ -4,6 +4,8 @@ namespace E_commercePlants.Models
 {
     public class User
     {
+        public string Id { get; set; }
+        [Display(Name = "Username")]
         [Required(ErrorMessage = "Username is required and must be at least 2 characters long"),MinLength(2)]
         public string UserName { get; set; }
         [Required(ErrorMessage = "Email is required")]
