@@ -84,5 +84,13 @@ namespace E_commercePlants.Controllers
             return Redirect("/");
         }
         
+        public async Task<IActionResult> OrderDetails(int id)
+        {
+            Order order= await _context.Orders.Where(x=>x.Id==id).FirstOrDefaultAsync();
+
+            List<OrderDetail> orderDetails=await _context.OrderDetails.Where(x=>x.Id==id)
+            .ToListAsync();
+            return View(new OrderDetailViewModel{Order=order,OrderDetails=orderDetails});
+        }
     }
 }
