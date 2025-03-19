@@ -104,16 +104,19 @@ app.MapControllerRoute(
     name: "pages",
     pattern: "{slug?}",
     defaults:new { controller="Pages",action="Index"}
-    
-    );
+);
+
+app.MapControllerRoute(
+    name: "orders",
+    pattern: "orders/{action}",
+    defaults: new { controller = "Orders", action = "Index" }
+);
 
 app.MapControllerRoute(
     name: "account",
     pattern: "account/{action}",
     defaults:new { controller="Account",action="Index"}
-    
-    );
-
+);
 
 app.MapControllerRoute(
     name: "default",
