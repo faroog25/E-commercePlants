@@ -1,13 +1,16 @@
-﻿
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.General;
-using IdentityDbContext = Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityDbContext;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using E_commercePlants.Models;
 
 namespace E_commercePlants.Data
 {
-    public class AppDbContext(DbContextOptions<AppDbContext> options):IdentityDbContext(options)
+    public class AppDbContext : IdentityDbContext<ApplicationUser>
     {
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+        {
+        }
+
         public DbSet<Page> Pages { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
@@ -113,6 +116,5 @@ namespace E_commercePlants.Data
 
                 );
         }
-        public DbSet<E_commercePlants.Models.User> User { get; set; }
     }
 }
