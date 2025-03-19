@@ -33,7 +33,9 @@ namespace E_commercePlants.Controllers
                 if (result.Succeeded)
                 {
                     await _userManager.AddToRoleAsync(newUser ,"Customer");
-                    Redirect("/");
+                    TempData["success"]="You have registered successfully";
+
+                    return RedirectToAction("Login");
                 }
 
                 foreach (var error in result.Errors)
@@ -64,5 +66,11 @@ namespace E_commercePlants.Controllers
              
             return View(loginViewModel);
         }
+        public async Task<IActionResult> Logout()
+        {
+            await  _signInManager?.SignOutAsync();
+            return Redirect("/");
+        }
+        
     }
 }
