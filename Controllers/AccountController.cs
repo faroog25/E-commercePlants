@@ -3,17 +3,29 @@ using Microsoft.AspNetCore.Mvc;
 using E_commercePlants.Models;
 using E_commercePlants.Models.ViewModels;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
+using E_commercePlants.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace E_commercePlants.Controllers
 {
-    public class AccountController(
+    public class AccountController(AppDbContext context,
         UserManager<ApplicationUser> userManager,
         SignInManager<ApplicationUser> signInManager) : Controller
     {
+        private readonly AppDbContext _context = context;
         private readonly UserManager<ApplicationUser> _userManager = userManager;
         private readonly SignInManager<ApplicationUser> _signInManager = signInManager;
-
-        public IActionResult Register()
+        [Authorize]
+        public async Task<IActionResult> Index()
+        {
+            var username =User.Identity.Name;
+            List<Order> orders=await _context.Orders.OrderByDescending(x=>x.Id)
+            .Where(x => x.Username == username).ToListAsync();
+            
+            return View(orders);
+        }
+         public IActionResult Register()
         {
             return View();
         }
