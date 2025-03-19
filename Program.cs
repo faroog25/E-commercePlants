@@ -85,6 +85,13 @@ app.MapControllerRoute(
     
     );
 
+app.MapControllerRoute(
+    name: "account",
+    pattern: "account/{action}",
+    defaults:new { controller="Account",action="Index"}
+    
+    );
+
 
 app.MapControllerRoute(
     name: "default",
