@@ -1,0 +1,30 @@
+﻿<ul class="navbar-nav flex-grow-1 justify-content-end">
+    @if (User.Identity.IsAuthenticated)
+    {
+        @if (User.IsInRole("Admin"))
+        {
+            <li class="nav-item">
+                <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index" class="nav-link text-dark">Admin</a>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item">
+                <a asp-controller="Account" asp-action="Index" class="nav-link text-dark">My Account</a>
+            </li>
+            <li class="nav-item">
+                <a asp-controller="Account" asp-action="Logout" class="nav-link text-dark">Log Out</a>
+            </li>
+        }
+    }
+    else
+    {
+        <li class="nav-item">
+            <a asp-controller="Account" asp-action="Register" class="nav-link text-dark">Register</a>
+        </li>
+        <li class="nav-item">
+            <a asp-controller="Account" asp-action="Login" class="nav-link text-dark">Log in</a>
+        </li>
+    }
+
+</ul>
