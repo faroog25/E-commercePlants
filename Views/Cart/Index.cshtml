@@ -89,9 +89,22 @@
                     <a asp-controller="Cart" asp-action="Clear" class="btn btn-outline-danger">
                         <i class="bi bi-trash me-2"></i>Clear Cart
                     </a>
-                    <a href="#" class="btn btn-success">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <form class="d-inline">
+                             <button class="btn btn-success">
                         <i class="bi bi-credit-card me-2"></i>Checkout
-                    </a>
+                             </button>
+                        </form>
+                       
+                    }
+                    else
+                    {
+                        <a asp-controller="Account" asp-action="Login" class="btn btn-primary">
+                            <i class="bi bi-box-arrow-in-right me-2"></i>Login to Checkout
+                        </a>
+                        <span class="ms-2 text-muted fst-italic">You must be logged in to complete your purchase</span>
+                    }
                 </div>
             </div>
         </div>
