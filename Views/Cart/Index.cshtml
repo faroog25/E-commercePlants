@@ -91,7 +91,7 @@
                     </a>
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <form class="d-inline">
+                        <form asp-controller="Orders" asp-action="Create" class="d-inline">
                              <button class="btn btn-success">
                         <i class="bi bi-credit-card me-2"></i>Checkout
                              </button>
