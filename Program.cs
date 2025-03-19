@@ -38,6 +38,12 @@ builder.Services.Configure<IdentityOptions>(option =>
 
 });
 
+builder.Services.AddAuthorization(option=>
+{
+    option.AddPolicy("Admin",policy => policy.RequireRole("Admin"));
+    option.AddPolicy("Customer",policy => policy.RequireRole("Customer"));
+});
+
 var app = builder.Build();
 
 //seed roles
