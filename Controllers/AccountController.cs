@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using E_commercePlants.Models;
 
 namespace E_commercePlants.Controllers
 {
-    public class AccountController(UserManager<IdentityUser> userManager) : Controller
+    public class AccountController(UserManager<ApplicationUser> userManager) : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager = userManager;
+        private readonly UserManager<ApplicationUser> _userManager = userManager;
 
         public IActionResult Register()
         {
@@ -16,9 +17,10 @@ namespace E_commercePlants.Controllers
         {
             if (ModelState.IsValid)
             {
-                IdentityUser newUser= new IdentityUser {
+                ApplicationUser newUser= new ApplicationUser {
                     UserName=user.UserName,Email=user.Email,
-                    PhoneNumber=user.Phone
+                    PhoneNumber=user.Phone,
+                    Address=user.Address
                     
                 };
                 IdentityResult result = await _userManager.CreateAsync(newUser
