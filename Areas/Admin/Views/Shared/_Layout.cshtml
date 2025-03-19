@@ -33,12 +33,10 @@
                         <ul class="navbar-nav flex-grow-1 justify-content-end">
                             @if (User.Identity.IsAuthenticated)
                             {
-
                                 <li class="nav-item">
-                                    <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index"
-                                        class="nav-link text-dark">Admin</a>
+                                    <a asp-area="" asp-controller="Account" asp-action="Logout"
+                                        class="nav-link text-dark">Log out</a>
                                 </li>
-
                             }
 
                         </ul>
