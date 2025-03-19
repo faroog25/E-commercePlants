@@ -45,7 +45,7 @@ namespace E_commercePlants.Controllers
             }
             HttpContext.Session.Remove("Cart");
 
-            return Redirect("/orders/index");
+            return RedirectToAction("Index");
         }
 
     }
