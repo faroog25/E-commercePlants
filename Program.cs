@@ -39,6 +39,20 @@ builder.Services.Configure<IdentityOptions>(option =>
 
 var app = builder.Build();
 
+//seed roles
+// using (var scope =app.Services.CreateScope())
+// {
+//     var roleManger=scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+//     var roles=new []{"Admin","Customer"};
+//     foreach (var role in roles)
+//     {
+//         if (!await roleManger.RoleExistsAsync(role))
+//         {
+//             await roleManger.CreateAsync(new IdentityRole(role));
+//         }
+//     }
+// }
+
 app.UseSession();
 
 // Configure the HTTP request pipeline.
