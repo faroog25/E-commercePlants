@@ -1,4 +1,5 @@
 ﻿using E_commercePlants.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -6,6 +7,8 @@ using Microsoft.IdentityModel.Tokens;
 namespace E_commercePlants.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize("Admin")]
+
     public class PagesController(AppDbContext context) : Controller
     {
         private readonly AppDbContext _context = context;

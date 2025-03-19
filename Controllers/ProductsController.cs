@@ -8,7 +8,6 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace E_commercePlants.Controllers
 {
-    [Authorize]
     public class ProductsController(AppDbContext context, IWebHostEnvironment webHostEnvironment) : Controller
     {
         private readonly AppDbContext _context = context;
