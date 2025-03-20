@@ -44,6 +44,10 @@ builder.Services.AddAuthorization(option=>
     option.AddPolicy("Customer",policy => policy.RequireRole("Customer"));
 });
 
+builder.Services.Configure<RouteOptions>(options=>{
+    options.LowercaseUrls=true;
+});
+
 var app = builder.Build();
 
 //seed roles
