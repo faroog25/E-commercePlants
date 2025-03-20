@@ -1,0 +1,77 @@
+﻿@model IEnumerable<Order>
+
+@{
+    ViewData["Title"] = "Orders";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0"><i class="fas fa-shopping-bag me-2"></i>Orders</h3>
+                </div>
+                <div class="card-body">
+                    @if (!Model.Any())
+                    {
+                        <div class="alert alert-info text-center">
+                            <h4>There are no orders in the system.</h4>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Order #</th>
+                                        <th>Username</th>
+                                        <th>Total</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td><span class="badge bg-secondary">#@item.Id</span></td>
+                                            <td>@item.Username</td>
+                                            <td><strong class="text-success">$@item.GrandTotal.ToString("0.00")</strong></td>
+                                            <td>@item.DateTime.ToString("MMM dd, yyyy HH:mm")</td>
+                                            <td>
+                                                @if (item.Shipped)
+                                                {
+                                                    <span class="badge bg-success">Shipped</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-warning text-dark">Processing</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                <form asp-action="ShippedStatus" method="post" class="d-inline">
+                                                    <input type="hidden" name="id" asp-for="@item.Id" />
+                                                    <input type="hidden" name="shipped" asp-for="@item.Shipped" value="@(!item.Shipped)" />
+                                                    <button type="submit" class="btn btn-sm @(item.Shipped ? "btn-warning" : "btn-success")">
+                                                        @(item.Shipped ? "Mark as Processing" : "Mark as Shipped")
+                                                    </button>
+                                                </form>
+                                                <a asp-area="" asp-controller="Account" asp-action="OrderDetails" asp-route-id="@item.Id" class="btn btn-info btn-sm">
+                                                    <i class="fas fa-eye"></i> Details
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
